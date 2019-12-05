@@ -1,6 +1,7 @@
 import queue
 class HuffmanTree():
     def __init__(self, filename):
+        self.filename=filename
         self.codes={}
         self.freq={}
         self.pq=queue.PriorityQueue()
@@ -8,10 +9,15 @@ class HuffmanTree():
         self._fill_pq()
         self._fill_codes()
         
-    def compress(self,outfilename):
-        
-        
-        
+    def save_compressed(self,outfilename):
+        with open(self.filename, 'r') as infile:
+            with open(outfilename, 'w') as outfile:
+                while(True):
+                    c=infile.read(1)
+                    if not c:
+                        break
+                    outfile.write(self.codes[c])
+                
     def _fill_freq_dict(self,filename):
         with open(filename, 'r') as f:
             while(True):
@@ -43,7 +49,7 @@ class HuffmanTree():
 def main():
     filename="test.txt"
     h = HuffmanTree(filename)
-    h.encode("out.txt")
+    h.save_compressed("out.txt")
     
     
     
