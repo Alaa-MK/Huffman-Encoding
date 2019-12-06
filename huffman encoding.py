@@ -2,6 +2,8 @@ import queue
 import pickle
 import math
 import bitarray as ba
+import sys
+
 class HuffmanTree():   
     
     class encoding_info():
@@ -116,8 +118,6 @@ def main():
     print("Compression ratio: ", h.compression_ratio())
     print("Efficiency: ", h.efficiency())
     h.decompress("out.bin", "decoded.txt")
-    
-    
     
     
     
