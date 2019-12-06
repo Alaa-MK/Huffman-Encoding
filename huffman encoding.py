@@ -16,11 +16,22 @@ class HuffmanTree():
         self.codes={}
         self.freq={}
         self.count=0
-        self.pq=queue.PriorityQueue()
-#        
-#    def _bitstring_to_bytes(self, s):
-#        return int(s, 2).to_bytes(math.ceil(len(s) / 8), byteorder='little')
-#        
+        self.pq=queue.PriorityQueue()        
+        
+    def average_code_length(self):
+        s = sum([self.freq[x] for x in self.freq.keys() if len(x)==1])
+        return sum([(self.freq[x]/s)*len(self.codes[x]) for x in self.codes.keys()])
+        
+    def entropy(self):
+        s = sum([self.freq[x] for x in self.freq.keys() if len(x)==1])
+        return sum([-(self.freq[x]/s)*math.log2(self.freq[x]/s) for x in self.codes.keys()])
+    
+    def compression_ratio(self):
+        return self.average_code_length()/8
+    
+    def efficiency(self):
+        return self.entropy()/self.average_code_length()
+    
     def compress(self,infilename, outfilename):
         self._reset()
         self._fill_freq_dict(infilename)
@@ -96,19 +107,17 @@ class HuffmanTree():
             
             
 def main():
-    
-    #test 1
+    #test
     filename="test.txt"
     h = HuffmanTree()
     h.compress(filename, "out.bin")
+    print("Average Code Length: ", h.average_code_length())
+    print("Entropy: ", h.entropy())
+    print("Compression ratio: ", h.compression_ratio())
+    print("Efficiency: ", h.efficiency())
     h.decompress("out.bin", "decoded.txt")
     
     
-    #test 2
-    filename="test.jpg"
-    h = HuffmanTree()
-    h.compress(filename, "out2.bin")
-    h.decompress("out2.bin", "decoded.jpg")
     
     
     
